@@ -2,7 +2,10 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>Sistem Deteksi Masker Real-Time</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0"></script>
@@ -53,7 +56,7 @@
 
       /* MAIN CONTAINER */
       main {
-        margin-top: 80px;
+        margin-top: 70px;
         flex: 1;
         display: flex;
         justify-content: center;
@@ -65,7 +68,7 @@
       .welcome-container {
         text-align: center;
         max-width: 600px;
-        padding: 40px 20px;
+        padding: 30px 15px;
         animation: fadeIn 0.6s ease-out;
       }
 
@@ -96,6 +99,8 @@
         cursor: pointer;
         box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
         transition: all 0.3s ease;
+        width: 100%;
+        max-width: 300px; /* Agar tombol tidak terlalu melebar di HP */
       }
 
       .btn-start:hover {
@@ -114,42 +119,42 @@
         flex-direction: column;
         align-items: center;
         background: white;
-        padding: 30px;
+        padding: 25px;
         border-radius: 20px;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
-        max-width: 700px;
         width: 100%;
+        max-width: 700px;
         animation: slideUp 0.5s ease-out;
       }
 
-      /* AREA DOCKING WEBCAM & OVERLAY */
+      /* AREA DOCKING WEBCAM & OVERLAY (RESPONSIVE FIX) */
       .webcam-wrapper {
         position: relative;
-        width: 640px;
-        height: 480px;
+        width: 100%;
+        max-width: 640px;
+        aspect-ratio: 4 / 3; /* Menjaga proporsi video 640x480 */
         background-color: #000;
         border-radius: 12px;
         overflow: hidden;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       }
 
-      #webcam {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transform: scaleX(-1);
-      }
-
+      #webcam,
       #overlay {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 10;
-        transform: scaleX(
-          -1
-        ); /* PERBAIKAN: Wajib dikembalikan agar kotak AI tepat sasaran */
+      }
+
+      #webcam {
+        object-fit: cover;
+        transform: scaleX(-1);
+      }
+
+      #overlay {
+        transform: scaleX(-1);
       }
 
       /* STATUS TEXT & LEGEND INDIKATOR */
@@ -163,12 +168,15 @@
 
       .legend-box {
         display: flex;
-        gap: 20px;
+        flex-wrap: wrap; /* Memungkinkan legend turun ke bawah jika layar HP kecil */
+        justify-content: center;
+        gap: 15px;
         margin-top: 20px;
         background: #f8fafc;
-        padding: 10px 20px;
+        padding: 12px 20px;
         border-radius: 30px;
         border: 1px solid #e2e8f0;
+        width: 100%;
       }
 
       .legend-item {
@@ -204,6 +212,7 @@
         color: #94a3b8;
         background-color: #ffffff;
         border-top: 1px solid #f1f5f9;
+        margin-top: auto;
       }
 
       @keyframes fadeIn {
@@ -225,6 +234,42 @@
         to {
           opacity: 1;
           transform: translateY(0);
+        }
+      }
+
+      /* =========================================
+         MEDIA QUERIES (KHUSUS UNTUK HP & TABLET)
+         ========================================= */
+      @media (max-width: 768px) {
+        header {
+          padding: 15px 20px;
+          justify-content: center; /* Ketengahkan judul di HP */
+        }
+
+        .header-title {
+          font-size: 1.1rem;
+        }
+
+        .welcome-container h1 {
+          font-size: 1.8rem;
+        }
+
+        .welcome-container p {
+          font-size: 1rem;
+        }
+
+        .detector-container {
+          padding: 15px;
+          border-radius: 12px;
+        }
+
+        #status {
+          font-size: 1rem;
+        }
+
+        .legend-box {
+          gap: 10px;
+          border-radius: 15px;
         }
       }
     </style>
